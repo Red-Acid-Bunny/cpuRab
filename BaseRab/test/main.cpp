@@ -82,6 +82,77 @@ int testArray_rv_regs() {
   return 0;
 }
 
+int testFunction_getStrRvReg() {
+  uint32_t num = -1;
+  if (!strcmp(getStrRvReg(rv_reg_zero), "zero"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_ra), "ra"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_sp), "sp"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_gp), "gp"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_tp), "tp"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t0), "t0"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t1), "t1"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t2), "t2"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s0), "s0"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s1), "s1"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a0), "a0"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a1), "a1"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a2), "a2"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a3), "a3"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a4), "a4"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a5), "a5"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a6), "a6"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_a7), "a7"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s2), "s2"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s3), "s3"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s4), "s4"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s5), "s5"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s6), "s6"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s7), "s7"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s8), "s8"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s9), "s9"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s10), "s10"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_s11), "s11"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t3), "t3"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t4), "t4"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t5), "t5"))
+    num++;
+  if (!strcmp(getStrRvReg(rv_reg_t6), "t6"))
+    num++;
+  if (num == rv_reg_t6)
+    return 1;
+  return 0;
+}
+
 int testFunction_getCodeRvReg() {
   uint32_t num = -1;
   if (rv_reg_zero == getCodeRvReg(rv_regs[rv_reg_zero]))
@@ -184,6 +255,14 @@ void run_tests() {
   {
     char name[] = "testFunction_getCodeRvReg";
     if (testFunction_getCodeRvReg()) {
+      printf("SUCCESS: %s\n", name);
+    } else {
+      printf("ERROR: %s\n", name);
+    }
+  }
+  {
+    char name[] = "testFunction_getStrRvReg";
+    if (testFunction_getStrRvReg()) {
       printf("SUCCESS: %s\n", name);
     } else {
       printf("ERROR: %s\n", name);

@@ -235,37 +235,158 @@ int testStruct_CmdLine() {
   return 0;
 }
 
+int testFunction_dropSpace() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "   text";
+    char *it = text;
+    it = dropSpace(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "\ttext";
+    char *it = text;
+    it = dropSpace(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "\t\t\t\ttext";
+    char *it = text;
+    it = dropSpace(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "\0\t\t\ttext";
+    char *it = text;
+    it = dropSpace(it);
+    if (!it) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_dropSeparator() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = ",text";
+    char *it = text;
+    it = dropSeparator(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = ",,,,,text";
+    char *it = text;
+    it = dropSeparator(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "text";
+    char *it = text;
+    it = dropSeparator(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "";
+    char *it = text;
+    it = dropSeparator(it);
+    if (!it) {
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = ",\0,text";
+    char *it = text;
+    it = dropSeparator(it);
+    if (!it) {
+        num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
 void run_tests() {
+  char strSuccess[] = "\e[0;32mSUCCESS\e[0m:";
+  char strError[] = "\e[1;31mERROR\e[0m:";
   {
     char name[] = "testStruct_CmdLine";
     if (testStruct_CmdLine()) {
-      printf("SUCCESS: %s\n", name);
+      printf("%s %s\n", strSuccess ,name);
     } else {
-      printf("ERROR: %s\n", name);
+      printf("%s %s\n", strError ,name);
     }
   }
   {
     char name[] = "testArray_rv_regs";
     if (testArray_rv_regs()) {
-      printf("SUCCESS: %s\n", name);
+      printf("%s %s\n", strSuccess ,name);
     } else {
-      printf("ERROR: %s\n", name);
+      printf("%s %s\n", strError ,name);
     }
   }
   {
     char name[] = "testFunction_getCodeRvReg";
     if (testFunction_getCodeRvReg()) {
-      printf("SUCCESS: %s\n", name);
+      printf("%s %s\n", strSuccess ,name);
     } else {
-      printf("ERROR: %s\n", name);
+      printf("%s %s\n", strError ,name);
     }
   }
   {
     char name[] = "testFunction_getStrRvReg";
     if (testFunction_getStrRvReg()) {
-      printf("SUCCESS: %s\n", name);
+      printf("%s %s\n", strSuccess ,name);
     } else {
-      printf("ERROR: %s\n", name);
+      printf("%s %s\n", strError ,name);
+    }
+  }
+  {
+    char name[] = "testFunction_dropSpace";
+    if (testFunction_dropSpace()) {
+      printf("%s %s\n", strSuccess ,name);
+    } else {
+      printf("%s %s\n", strError ,name);
+    }
+  }
+  {
+    char name[] = "testFunction_dropSeparator";
+    if (testFunction_dropSeparator()) {
+      printf("%s %s\n", strSuccess ,name);
+    } else {
+      printf("%s %s\n", strError ,name);
     }
   }
 }

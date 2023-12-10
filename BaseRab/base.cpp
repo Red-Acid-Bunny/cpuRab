@@ -1,7 +1,9 @@
 #include "base.h"
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctype.h>
 
 uint32_t getCodeRvReg(const char *str) {
   if (!strcmp(str, "zero"))
@@ -77,3 +79,76 @@ const char *getStrRvReg(uint32_t code) {
   }
   return NULL;
 }
+
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
+char *dropSpace(char *str) {
+  char *it = str;
+  if (str) {
+    for (; *it; it++) {
+      if (!isspace(*it))
+        return it;
+    }
+  }
+  return NULL;
+}
+
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
+uint8_t isseparator(char c){
+  uint32_t size = strlen(separator);
+  for(uint32_t i=0; i<size; i++){
+    if(separator[i] == c){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+char *dropSeparator(char *str) {
+  char *it = str;
+  if (str) {
+    for (; *it; it++) {
+      if (!isseparator(*it)){
+        return it;
+      }
+    }
+  }
+  return NULL;
+}
+
+// Пропускает коментарии и возвращяет указатель на начало слова
+char *dropComent(char *) {
+  puts("Fix me: dropComent");
+  return NULL;
+}
+
+// Правило для получения opcode
+char *getStrOpcode(char *) {
+  puts("Fix me: getStrOpcode");
+  return NULL;
+}
+
+// Правило для получения operand
+char *getStrOperand(char *) {
+  puts("Fix me: getStrOperand");
+  return NULL;
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// end

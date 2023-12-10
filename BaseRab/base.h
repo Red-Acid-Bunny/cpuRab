@@ -42,6 +42,8 @@ const char rv_regs[][10] = {"zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
                             "a6",   "a7", "s2",  "s3",  "s4", "s5", "s6", "s7",
                             "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"};
 
+const char separator[] = ",";
+
 typedef struct {
   uint32_t opcode;
   uint32_t rd;
@@ -49,5 +51,21 @@ typedef struct {
 
 uint32_t getCodeRvReg(const char*);
 const char* getStrRvReg(uint32_t);
+
+// Пропускает все разделительные символы и возвращяет ссылку на начало слова
+char *dropSpace(char *);
+
+// Пропускает все разделительные символы и возвращяет ссылку на начало слова
+uint8_t isseparator(char);
+char *dropSeparator(char *);
+
+// Пропускает коментарии и возвращяет ссылку на начало слова
+char *dropComent(char *);
+
+// Правило для получения opcode 
+char *getStrOpcode(char *);
+
+// Правило для получения operand
+char *getStrOperand(char *);
 
 #endif // !TEST_H

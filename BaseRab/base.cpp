@@ -93,10 +93,10 @@ char *dropSpace(char *str) {
 }
 
 // Пропускает все разделительные символы и возвращяет указатель на начало слова
-uint8_t isseparator(char c){
+uint8_t isseparator(char c) {
   uint32_t size = strlen(separator);
-  for(uint32_t i=0; i<size; i++){
-    if(separator[i] == c){
+  for (uint32_t i = 0; i < size; i++) {
+    if (separator[i] == c) {
       return 1;
     }
   }
@@ -107,7 +107,7 @@ char *dropSeparator(char *str) {
   char *it = str;
   if (str) {
     for (; *it; it++) {
-      if (!isseparator(*it)){
+      if (!isseparator(*it)) {
         return it;
       }
     }
@@ -116,9 +116,65 @@ char *dropSeparator(char *str) {
 }
 
 // Пропускает коментарии и возвращяет указатель на начало слова
-char *dropComent(char *) {
-  puts("Fix me: dropComent");
-  return NULL;
+int isStartComment(char *str) {
+  uint32_t size = strlen(str);
+  if (size > strlen(startComment)) {
+    char *temp = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(temp, str);
+    *(temp + 2) = 0x00;
+    if (!strcmp(temp, startComment)) {
+      free(temp);
+      return 1;
+    }
+    free(temp);
+  }
+  if (size == strlen(startComment)) {
+    if (!strcmp(str, startComment)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+int isEndComment(char *str) {
+  uint32_t size = strlen(str);
+  if (size > strlen(endComment)) {
+    char *temp = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(temp, str);
+    *(temp + 2) = 0x00;
+    if (!strcmp(temp, endComment)) {
+      free(temp);
+      return 1;
+    }
+    free(temp);
+  }
+  if (size == strlen(endComment)) {
+    if (!strcmp(str, endComment)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+char *dropComent(char *str) {
+  char *pStr = str;
+  if (*pStr) {
+    if (isStartComment(pStr)) {
+      uint32_t size = strlen(endComment);
+      while (*pStr) {
+        if (isEndComment(pStr)) {
+          if (*(pStr + size) != 0x00) {
+            return pStr + size;
+          }
+          return NULL;
+        }
+        pStr++;
+      }
+      puts("WARNING: endComment not found");
+      return NULL;
+    }
+  }
+  return str;
 }
 
 // Правило для получения opcode

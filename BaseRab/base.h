@@ -44,6 +44,10 @@ const char rv_regs[][10] = {"zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
 
 const char separator[] = ",";
 
+// Comments
+const char startComment[] = "/*";
+const char endComment[] = "*/";
+
 typedef struct {
   uint32_t opcode;
   uint32_t rd;

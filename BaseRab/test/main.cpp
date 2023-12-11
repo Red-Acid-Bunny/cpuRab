@@ -321,7 +321,7 @@ int testFunction_dropSeparator() {
     char *it = text;
     it = dropSeparator(it);
     if (!it) {
-        num++;
+      num++;
     }
   }
   {
@@ -330,6 +330,91 @@ int testFunction_dropSeparator() {
     char *it = text;
     it = dropSeparator(it);
     if (!it) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_dropComent() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "/**/text";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 't')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*text*/D";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 'D')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*text*/";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "D/*text";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 'D') {
+        num++;
+      }
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*tex*t";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*tex*t/";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*text";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 0x00)
         num++;
     }
   }
@@ -344,49 +429,57 @@ void run_tests() {
   {
     char name[] = "testStruct_CmdLine";
     if (testStruct_CmdLine()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testArray_rv_regs";
     if (testArray_rv_regs()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_getCodeRvReg";
     if (testFunction_getCodeRvReg()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_getStrRvReg";
     if (testFunction_getStrRvReg()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_dropSpace";
     if (testFunction_dropSpace()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_dropSeparator";
     if (testFunction_dropSeparator()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_dropComent";
+    if (testFunction_dropComent()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
     }
   }
 }

@@ -43,6 +43,7 @@ const char rv_regs[][10] = {"zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
                             "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"};
 
 const char separator[] = ",";
+const char ending[] = ";";
 
 // Comments
 const char startComment[] = "/*";
@@ -53,23 +54,33 @@ typedef struct {
   uint32_t rd;
 } CmdLine;
 
-uint32_t getCodeRvReg(const char*);
-const char* getStrRvReg(uint32_t);
+uint32_t getCodeRvReg(const char *);
+const char *getStrRvReg(uint32_t);
 
-// Пропускает все разделительные символы и возвращяет ссылку на начало слова
-char *dropSpace(char *);
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
+char *dropSpace(char *str);
 
-// Пропускает все разделительные символы и возвращяет ссылку на начало слова
-uint8_t isseparator(char);
-char *dropSeparator(char *);
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
+uint8_t isseparator(char c);
 
-// Пропускает коментарии и возвращяет ссылку на начало слова
-char *dropComent(char *);
+char *dropSeparator(char *str);
 
-// Правило для получения opcode 
-char *getStrOpcode(char *);
+// Пропускает коментарии и возвращяет указатель на начало слова
+int isStartComment(char *str);
+
+int isEndComment(char *str);
+
+char *dropComent(char *str);
+
+// Правило для получения opcode
+char *getNewStrOpcode(char *str, char **NewOpcode);
 
 // Правило для получения operand
-char *getStrOperand(char *);
+char *getNewStrOperand(char *str, char **NewOperand);
+
+// Пропускает символ конца
+uint8_t isending(char c);
+
+char *dropEnding(char *str);
 
 #endif // !TEST_H

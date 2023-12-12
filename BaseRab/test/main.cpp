@@ -423,6 +423,88 @@ int testFunction_dropComent() {
   return 0;
 }
 
+int testFunction_getNewStrOpcode() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "text D";
+    char *it = text;
+    char *newOpcode = NULL;
+    it = getNewStrOpcode(it, &newOpcode);
+    if (it) {
+      if ((*it == ' ') && (!strcmp("text", newOpcode)))
+        num++;
+    }
+    if (newOpcode)
+      free(newOpcode);
+  }
+  {
+    num_check++;
+    char text[] = "text\tD";
+    char *it = text;
+    char *newOpcode = NULL;
+    it = getNewStrOpcode(it, &newOpcode);
+    if (it) {
+      if ((*it == '\t') && (!strcmp("text", newOpcode)))
+        num++;
+    }
+    if (newOpcode)
+      free(newOpcode);
+  }
+  {
+    num_check++;
+    char text[] = "";
+    char *it = text;
+    char *newOpcode = NULL;
+    it = getNewStrOpcode(it, &newOpcode);
+    if (it) {
+      if (*it == 0x00) {
+        num++;
+      }
+    }
+    if (newOpcode)
+      free(newOpcode);
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_getNewStrOperand() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "text,D";
+    char *it = text;
+    char *newOperand = NULL;
+    it = getNewStrOperand(it, &newOperand);
+    if (it) {
+      if ((*it == ',') && (!strcmp("text", newOperand)))
+        num++;
+    }
+    if (newOperand)
+      free(newOperand);
+  }
+  {
+    num_check++;
+    char text[] = "text;D";
+    char *it = text;
+    char *newOperand = NULL;
+    it = getNewStrOperand(it, &newOperand);
+    if (it) {
+      if ((*it == ';') && (!strcmp("text", newOperand)))
+        num++;
+    }
+    if (newOperand)
+      free(newOperand);
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
 void run_tests() {
   char strSuccess[] = "\e[0;32mSUCCESS\e[0m:";
   char strError[] = "\e[1;31mERROR\e[0m:";
@@ -477,6 +559,22 @@ void run_tests() {
   {
     char name[] = "testFunction_dropComent";
     if (testFunction_dropComent()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_getNewStrOpcode";
+    if (testFunction_getNewStrOpcode()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_getNewStrOperand";
+    if (testFunction_getNewStrOperand()) {
       printf("%s %s\n", strSuccess, name);
     } else {
       printf("%s %s\n", strError, name);

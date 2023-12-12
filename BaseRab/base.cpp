@@ -115,6 +115,29 @@ char *dropSeparator(char *str) {
   return NULL;
 }
 
+// Пропускает символ конца
+uint8_t isending(char c) {
+  uint32_t size = strlen(separator);
+  for (uint32_t i = 0; i < size; i++) {
+    if (ending[i] == c) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+char *dropEnding(char *str) {
+  char *it = str;
+  if (str) {
+    for (; *it; it++) {
+      if (!isending(*it)) {
+        return it;
+      }
+    }
+  }
+  return NULL;
+}
+
 // Пропускает коментарии и возвращяет указатель на начало слова
 int isStartComment(char *str) {
   uint32_t size = strlen(str);
@@ -170,7 +193,7 @@ char *dropComent(char *str) {
         }
         pStr++;
       }
-      puts("WARNING: endComment not found");
+      printf("WARNING: endComment not found: \'%s\'\n", str);
       return NULL;
     }
   }
@@ -178,14 +201,48 @@ char *dropComent(char *str) {
 }
 
 // Правило для получения opcode
-char *getStrOpcode(char *) {
-  puts("Fix me: getStrOpcode");
+char *getNewStrOpcode(char *str, char **NewOpcode) {
+  if (str) {
+    char *it = str;
+    char *end = NULL;
+    uint32_t size = strlen(str);
+    for (; *it; it++) {
+      if (isspace(*it)) {
+        break;
+      }
+    }
+    char tempChar = *it;
+    *it = 0x00;
+    size = strlen(str);
+    *NewOpcode = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(*NewOpcode, str);
+    *(*NewOpcode + size) = 0x00;
+    *it = tempChar;
+    return it;
+  }
   return NULL;
 }
 
 // Правило для получения operand
-char *getStrOperand(char *) {
-  puts("Fix me: getStrOperand");
+char *getNewStrOperand(char *str, char **NewOperand) {
+  if (str) {
+    char *it = str;
+    char *end = NULL;
+    uint32_t size = strlen(str);
+    for (; *it; it++) {
+      if (isseparator(*it) || isending(*it)) {
+        break;
+      }
+    }
+    char tempChar = *it;
+    *it = 0x00;
+    size = strlen(str);
+    *NewOperand = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(*NewOperand, str);
+    *(*NewOperand + size) = 0x00;
+    *it = tempChar;
+    return it;
+  }
   return NULL;
 }
 

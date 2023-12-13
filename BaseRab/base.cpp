@@ -6,70 +6,10 @@
 #include <ctype.h>
 
 uint32_t getCodeRvReg(const char *str) {
-  if (!strcmp(str, "zero"))
-    return rv_reg_zero;
-  if (!strcmp(str, "ra"))
-    return rv_reg_ra;
-  if (!strcmp(str, "sp"))
-    return rv_reg_sp;
-  if (!strcmp(str, "gp"))
-    return rv_reg_gp;
-  if (!strcmp(str, "tp"))
-    return rv_reg_tp;
-  if (!strcmp(str, "t0"))
-    return rv_reg_t0;
-  if (!strcmp(str, "t1"))
-    return rv_reg_t1;
-  if (!strcmp(str, "t2"))
-    return rv_reg_t2;
-  if (!strcmp(str, "s0"))
-    return rv_reg_s0;
-  if (!strcmp(str, "s1"))
-    return rv_reg_s1;
-  if (!strcmp(str, "a0"))
-    return rv_reg_a0;
-  if (!strcmp(str, "a1"))
-    return rv_reg_a1;
-  if (!strcmp(str, "a2"))
-    return rv_reg_a2;
-  if (!strcmp(str, "a3"))
-    return rv_reg_a3;
-  if (!strcmp(str, "a4"))
-    return rv_reg_a4;
-  if (!strcmp(str, "a5"))
-    return rv_reg_a5;
-  if (!strcmp(str, "a6"))
-    return rv_reg_a6;
-  if (!strcmp(str, "a7"))
-    return rv_reg_a7;
-  if (!strcmp(str, "s2"))
-    return rv_reg_s2;
-  if (!strcmp(str, "s3"))
-    return rv_reg_s3;
-  if (!strcmp(str, "s4"))
-    return rv_reg_s4;
-  if (!strcmp(str, "s5"))
-    return rv_reg_s5;
-  if (!strcmp(str, "s6"))
-    return rv_reg_s6;
-  if (!strcmp(str, "s7"))
-    return rv_reg_s7;
-  if (!strcmp(str, "s8"))
-    return rv_reg_s8;
-  if (!strcmp(str, "s9"))
-    return rv_reg_s9;
-  if (!strcmp(str, "s10"))
-    return rv_reg_s10;
-  if (!strcmp(str, "s11"))
-    return rv_reg_s11;
-  if (!strcmp(str, "t3"))
-    return rv_reg_t3;
-  if (!strcmp(str, "t4"))
-    return rv_reg_t4;
-  if (!strcmp(str, "t5"))
-    return rv_reg_t5;
-  if (!strcmp(str, "t6"))
-    return rv_reg_t6;
+  for (uint32_t i = startReg; i <= endReg; i++) {
+    if (!strcmp(str, rv_regs[i]))
+      return i;
+  }
   return -1;
 }
 
@@ -246,37 +186,41 @@ char *getNewStrOperand(char *str, char **NewOperand) {
   return NULL;
 }
 
-uint8_t isBnBinary(char *str){
+uint8_t isBnBinary(char *str) {
   uint8_t res = 0;
   char *it = str;
-  if((*it == bn_basis[bn_binary][0]) && (*(it+1) == bn_basis[bn_binary][1]) && (*(it+2) != 0x00)){
+  if ((*it == bn_basis[bn_binary][0]) &&
+      (*(it + 1) == bn_basis[bn_binary][1]) && (*(it + 2) != 0x00)) {
     return 1;
   }
   return 0;
 }
 
-uint8_t isBnOctal(char *str){
+uint8_t isBnOctal(char *str) {
   uint8_t res = 0;
   char *it = str;
-  if((*it == bn_basis[bn_octal][0]) && (*(it+1) == bn_basis[bn_octal][1]) && (*(it+2) != 0x00)){
+  if ((*it == bn_basis[bn_octal][0]) && (*(it + 1) == bn_basis[bn_octal][1]) &&
+      (*(it + 2) != 0x00)) {
     return 1;
   }
   return 0;
 }
 
-uint8_t isBnDecimal(char *str){
+uint8_t isBnDecimal(char *str) {
   uint8_t res = 0;
   char *it = str;
-  if((*it == bn_basis[bn_decimal][0]) && (*(it+1) == bn_basis[bn_decimal][1]) && (*(it+2) != 0x00)){
+  if ((*it == bn_basis[bn_decimal][0]) &&
+      (*(it + 1) == bn_basis[bn_decimal][1]) && (*(it + 2) != 0x00)) {
     return 1;
   }
   return 0;
 }
 
-uint8_t isBnHex(char *str){
+uint8_t isBnHex(char *str) {
   uint8_t res = 0;
   char *it = str;
-  if((*it == bn_basis[bn_hex][0]) && (*(it+1) == bn_basis[bn_hex][1]) && (*(it+2) != 0x00)){
+  if ((*it == bn_basis[bn_hex][0]) && (*(it + 1) == bn_basis[bn_hex][1]) &&
+      (*(it + 2) != 0x00)) {
     return 1;
   }
   return 0;

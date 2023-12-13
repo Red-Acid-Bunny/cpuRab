@@ -36,6 +36,8 @@ enum {
   rv_reg_t5,       // Temporary register 5
   rv_reg_t6,       // Temporary register 6
 };
+const uint32_t startReg = rv_reg_zero;
+const uint32_t endReg = rv_reg_t6;
 
 const char rv_regs[][10] = {"zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
                             "s0",   "s1", "a0",  "a1",  "a2", "a3", "a4", "a5",

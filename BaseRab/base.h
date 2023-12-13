@@ -42,12 +42,33 @@ const char rv_regs[][10] = {"zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
                             "a6",   "a7", "s2",  "s3",  "s4", "s5", "s6", "s7",
                             "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"};
 
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
 const char separator[] = ",";
+uint8_t isseparator(char c);
+char *dropSeparator(char *str);
+
+// Пропускает символ конца
 const char ending[] = ";";
+uint8_t isending(char c);
+char *dropEnding(char *str);
+
+// The basis of the number system
+enum { bn_binary = 0x00, bn_octal, bn_decimal, bn_hex };
+
+const char bn_basis[][3] = {"0b", "0o", "0d", "0x"};
+
+uint8_t isBnBinary(char *str);
+uint8_t isBnOctal(char *str);
+uint8_t isBnDecimal(char *str);
+uint8_t isBnHex(char *str);
 
 // Comments
 const char startComment[] = "/*";
 const char endComment[] = "*/";
+int isStartComment(char *str);
+int isEndComment(char *str);
+// Пропускает коментарии и возвращяет указатель на начало слова
+char *dropComent(char *str);
 
 typedef struct {
   uint32_t opcode;
@@ -55,32 +76,16 @@ typedef struct {
 } CmdLine;
 
 uint32_t getCodeRvReg(const char *);
+
 const char *getStrRvReg(uint32_t);
 
 // Пропускает все разделительные символы и возвращяет указатель на начало слова
 char *dropSpace(char *str);
-
-// Пропускает все разделительные символы и возвращяет указатель на начало слова
-uint8_t isseparator(char c);
-
-char *dropSeparator(char *str);
-
-// Пропускает коментарии и возвращяет указатель на начало слова
-int isStartComment(char *str);
-
-int isEndComment(char *str);
-
-char *dropComent(char *str);
 
 // Правило для получения opcode
 char *getNewStrOpcode(char *str, char **NewOpcode);
 
 // Правило для получения operand
 char *getNewStrOperand(char *str, char **NewOperand);
-
-// Пропускает символ конца
-uint8_t isending(char c);
-
-char *dropEnding(char *str);
 
 #endif // !TEST_H

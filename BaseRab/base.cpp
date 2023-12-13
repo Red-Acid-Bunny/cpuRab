@@ -246,6 +246,42 @@ char *getNewStrOperand(char *str, char **NewOperand) {
   return NULL;
 }
 
+uint8_t isBnBinary(char *str){
+  uint8_t res = 0;
+  char *it = str;
+  if((*it == bn_basis[bn_binary][0]) && (*(it+1) == bn_basis[bn_binary][1]) && (*(it+2) != 0x00)){
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t isBnOctal(char *str){
+  uint8_t res = 0;
+  char *it = str;
+  if((*it == bn_basis[bn_octal][0]) && (*(it+1) == bn_basis[bn_octal][1]) && (*(it+2) != 0x00)){
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t isBnDecimal(char *str){
+  uint8_t res = 0;
+  char *it = str;
+  if((*it == bn_basis[bn_decimal][0]) && (*(it+1) == bn_basis[bn_decimal][1]) && (*(it+2) != 0x00)){
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t isBnHex(char *str){
+  uint8_t res = 0;
+  char *it = str;
+  if((*it == bn_basis[bn_hex][0]) && (*(it+1) == bn_basis[bn_hex][1]) && (*(it+2) != 0x00)){
+    return 1;
+  }
+  return 0;
+}
+
 //
 //
 //

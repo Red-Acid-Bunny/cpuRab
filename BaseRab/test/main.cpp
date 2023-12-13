@@ -505,6 +505,110 @@ int testFunction_getNewStrOperand() {
   return 0;
 }
 
+int testFunction_isBnBinaty() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0b1";
+    char *it = text;
+    if (isBnBinary(it)) {
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0b";
+    char *it = text;
+    if (!isBnBinary(it)) {
+        num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnOctal() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0o1";
+    char *it = text;
+    if (isBnOctal(it)) {
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0o";
+    char *it = text;
+    if (!isBnOctal(it)) {
+        num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnDecimal() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0d1";
+    char *it = text;
+    if (isBnDecimal(it)) {
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0d";
+    char *it = text;
+    if (!isBnDecimal(it)) {
+        num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnHex() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0x1";
+    char *it = text;
+    if (isBnHex(it)) {
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x";
+    char *it = text;
+    if (!isBnHex(it)) {
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0";
+    char *it = text;
+    if (!isBnHex(it)) {
+        num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
 void run_tests() {
   char strSuccess[] = "\e[0;32mSUCCESS\e[0m:";
   char strError[] = "\e[1;31mERROR\e[0m:";
@@ -575,6 +679,38 @@ void run_tests() {
   {
     char name[] = "testFunction_getNewStrOperand";
     if (testFunction_getNewStrOperand()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnBinaty";
+    if (testFunction_isBnBinaty()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnOctal";
+    if (testFunction_isBnOctal()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnDecimal";
+    if (testFunction_isBnDecimal()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnHex";
+    if (testFunction_isBnHex()) {
       printf("%s %s\n", strSuccess, name);
     } else {
       printf("%s %s\n", strError, name);

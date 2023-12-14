@@ -263,7 +263,7 @@ int Atoi(char *str, uint32_t *res, uint32_t basis) {
       if (isDigits(temp[i], basis)) {
         *res += getDigits(temp[i], basis) * pow(basis, (size - 1 - i));
       } else {
-        // Не подходит
+        // Встретился символ не являющийся числом
         free(temp);
         return -2;
       }

@@ -63,6 +63,10 @@ uint8_t isBnBinary(char *str);
 uint8_t isBnOctal(char *str);
 uint8_t isBnDecimal(char *str);
 uint8_t isBnHex(char *str);
+uint32_t binaryAtoi(char *str);
+uint32_t octalAtoi(char *str);
+uint32_t decimalAtoi(char *str);
+uint32_t hexAtoi(char *str);
 
 // Comments
 const char startComment[] = "/*";

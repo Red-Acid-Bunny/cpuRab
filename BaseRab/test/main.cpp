@@ -513,7 +513,7 @@ int testFunction_isBnBinaty() {
     char text[] = "0b1";
     char *it = text;
     if (isBnBinary(it)) {
-        num++;
+      num++;
     }
   }
   {
@@ -521,7 +521,7 @@ int testFunction_isBnBinaty() {
     char text[] = "0b";
     char *it = text;
     if (!isBnBinary(it)) {
-        num++;
+      num++;
     }
   }
   if (num == num_check)
@@ -537,7 +537,7 @@ int testFunction_isBnOctal() {
     char text[] = "0o1";
     char *it = text;
     if (isBnOctal(it)) {
-        num++;
+      num++;
     }
   }
   {
@@ -545,7 +545,7 @@ int testFunction_isBnOctal() {
     char text[] = "0o";
     char *it = text;
     if (!isBnOctal(it)) {
-        num++;
+      num++;
     }
   }
   if (num == num_check)
@@ -561,7 +561,7 @@ int testFunction_isBnDecimal() {
     char text[] = "0d1";
     char *it = text;
     if (isBnDecimal(it)) {
-        num++;
+      num++;
     }
   }
   {
@@ -569,7 +569,7 @@ int testFunction_isBnDecimal() {
     char text[] = "0d";
     char *it = text;
     if (!isBnDecimal(it)) {
-        num++;
+      num++;
     }
   }
   if (num == num_check)
@@ -585,7 +585,7 @@ int testFunction_isBnHex() {
     char text[] = "0x1";
     char *it = text;
     if (isBnHex(it)) {
-        num++;
+      num++;
     }
   }
   {
@@ -593,7 +593,7 @@ int testFunction_isBnHex() {
     char text[] = "0x";
     char *it = text;
     if (!isBnHex(it)) {
-        num++;
+      num++;
     }
   }
   {
@@ -601,7 +601,7 @@ int testFunction_isBnHex() {
     char text[] = "0";
     char *it = text;
     if (!isBnHex(it)) {
-        num++;
+      num++;
     }
   }
   if (num == num_check)
@@ -618,7 +618,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 2) == 1 && res == 0) {
-        num++;
+      num++;
     }
   }
   {
@@ -627,7 +627,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 2) == 1 && res == 1) {
-        num++;
+      num++;
     }
   }
   {
@@ -636,7 +636,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 2) == 1 && res == 4294967295) {
-        num++;
+      num++;
     }
   }
   {
@@ -645,7 +645,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 8) == 1 && res == 0) {
-        num++;
+      num++;
     }
   }
   {
@@ -654,7 +654,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 8) == 1 && res == 1) {
-        num++;
+      num++;
     }
   }
   {
@@ -663,7 +663,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 8) == 1 && res == 4294967295) {
-        num++;
+      num++;
     }
   }
   {
@@ -672,7 +672,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 10) == 1 && res == 0) {
-        num++;
+      num++;
     }
   }
   {
@@ -681,7 +681,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 10) == 1 && res == 1) {
-        num++;
+      num++;
     }
   }
   {
@@ -690,7 +690,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 10) == 1 && res == 4294967295) {
-        num++;
+      num++;
     }
   }
   {
@@ -699,7 +699,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 0) {
-        num++;
+      num++;
     }
   }
   {
@@ -708,7 +708,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 1) {
-        num++;
+      num++;
     }
   }
   {
@@ -717,7 +717,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 4294967295) {
-        num++;
+      num++;
     }
   }
   {
@@ -726,7 +726,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 1) {
-        num++;
+      num++;
     }
   }
   {
@@ -735,7 +735,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 2) {
-        num++;
+      num++;
     }
   }
   {
@@ -744,7 +744,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 3) {
-        num++;
+      num++;
     }
   }
   {
@@ -753,7 +753,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 4) {
-        num++;
+      num++;
     }
   }
   {
@@ -762,7 +762,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 5) {
-        num++;
+      num++;
     }
   }
   {
@@ -771,7 +771,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 6) {
-        num++;
+      num++;
     }
   }
   {
@@ -780,7 +780,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 7) {
-        num++;
+      num++;
     }
   }
   {
@@ -789,7 +789,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 8) {
-        num++;
+      num++;
     }
   }
   {
@@ -798,7 +798,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 9) {
-        num++;
+      num++;
     }
   }
   {
@@ -807,7 +807,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 10) {
-        num++;
+      num++;
     }
   }
   {
@@ -816,7 +816,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 11) {
-        num++;
+      num++;
     }
   }
   {
@@ -825,7 +825,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 12) {
-        num++;
+      num++;
     }
   }
   {
@@ -834,7 +834,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 13) {
-        num++;
+      num++;
     }
   }
   {
@@ -843,7 +843,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 14) {
-        num++;
+      num++;
     }
   }
   {
@@ -852,7 +852,7 @@ int testFunction_Atoi() {
     char *it = text;
     uint32_t res = 0;
     if (Atoi(it, &res, 16) == 1 && res == 15) {
-        num++;
+      num++;
     }
   }
   if (num == num_check)

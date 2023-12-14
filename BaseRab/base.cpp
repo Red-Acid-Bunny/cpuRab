@@ -1,10 +1,10 @@
 #include "base.h"
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctype.h>
-#include <cmath>
 
 uint32_t getCodeRvReg(const char *str) {
   for (uint32_t i = startReg; i <= endReg; i++) {
@@ -228,10 +228,10 @@ uint8_t isBnHex(char *str) {
 }
 
 const char digits[] = "0123456789abcdef";
-uint8_t isDigits(char c, uint32_t basis){
-  if(basis < strlen(digits)){
-    for(uint32_t i = 0; i<basis; i++){
-      if(digits[i] == c){
+uint8_t isDigits(char c, uint32_t basis) {
+  if (basis <= strlen(digits)) {
+    for (uint32_t i = 0; i < basis; i++) {
+      if (digits[i] == c) {
         return 1;
       }
     }
@@ -239,10 +239,10 @@ uint8_t isDigits(char c, uint32_t basis){
   return 0;
 }
 
-uint8_t getDigits(char c, uint32_t basis){
-  if(basis < strlen(digits)){
-    for(uint32_t i = 0; i<basis; i++){
-      if(digits[i] == c){
+uint8_t getDigits(char c, uint32_t basis) {
+  if (basis <= strlen(digits)) {
+    for (uint32_t i = 0; i < basis; i++) {
+      if (digits[i] == c) {
         return i;
       }
     }
@@ -251,36 +251,30 @@ uint8_t getDigits(char c, uint32_t basis){
   abort();
 }
 
-
-uint32_t binaryAtoi(char *str, int *errorCode){
-  uint32_t res = 0;
-  const uint32_t basis = 2;
-  if(isBnBinary(str)){
+int Atoi(char *str, uint32_t *res, uint32_t basis) {
+  *res = 0;
+  if ((basis == 2 && isBnBinary(str)) || (basis == 8 && isBnOctal(str)) ||
+      (basis == 10 && isBnDecimal(str)) || (basis == 16 && isBnHex(str))) {
     uint32_t size = strlen(str) - 2;
-    char *temp = (char*)malloc(sizeof(char)*size+1);
-    strcpy(temp, str+2);
+    char *temp = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(temp, str + 2);
     temp[size] = 0x00;
-    for(uint32_t i = 0; i>size; i++){
-      if(isDigits(temp[i], basis)){
-        res += getDigits(temp[i], basis)*pow(basis, (size-1-i)); 
-      }
-      else {
+    for (uint32_t i = 0; i < size; i++) {
+      if (isDigits(temp[i], basis)) {
+        *res += getDigits(temp[i], basis) * pow(basis, (size - 1 - i));
+      } else {
         // Не подходит
-        *errorCode = -1;
+        free(temp);
+        return -2;
       }
     }
     free(temp);
-  }else{
+  } else {
     // Не подходит
-    *errorCode = -1;
+    return -1;
   }
-
-  return res;
+  return 1;
 }
-uint32_t octalAtoi(char *str);
-uint32_t decimalAtoi(char *str);
-uint32_t hexAtoi(char *str);
-
 
 //
 //

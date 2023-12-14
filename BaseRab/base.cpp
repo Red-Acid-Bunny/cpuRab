@@ -273,7 +273,7 @@ int Atoi(char *str, uint32_t *res, uint32_t basis) {
     // Не подходит
     return -1;
   }
-  return 1;
+  return 0;
 }
 
 //

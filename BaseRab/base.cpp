@@ -1,4 +1,5 @@
 #include "base.h"
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -6,70 +7,10 @@
 #include <ctype.h>
 
 uint32_t getCodeRvReg(const char *str) {
-  if (!strcmp(str, "zero"))
-    return rv_reg_zero;
-  if (!strcmp(str, "ra"))
-    return rv_reg_ra;
-  if (!strcmp(str, "sp"))
-    return rv_reg_sp;
-  if (!strcmp(str, "gp"))
-    return rv_reg_gp;
-  if (!strcmp(str, "tp"))
-    return rv_reg_tp;
-  if (!strcmp(str, "t0"))
-    return rv_reg_t0;
-  if (!strcmp(str, "t1"))
-    return rv_reg_t1;
-  if (!strcmp(str, "t2"))
-    return rv_reg_t2;
-  if (!strcmp(str, "s0"))
-    return rv_reg_s0;
-  if (!strcmp(str, "s1"))
-    return rv_reg_s1;
-  if (!strcmp(str, "a0"))
-    return rv_reg_a0;
-  if (!strcmp(str, "a1"))
-    return rv_reg_a1;
-  if (!strcmp(str, "a2"))
-    return rv_reg_a2;
-  if (!strcmp(str, "a3"))
-    return rv_reg_a3;
-  if (!strcmp(str, "a4"))
-    return rv_reg_a4;
-  if (!strcmp(str, "a5"))
-    return rv_reg_a5;
-  if (!strcmp(str, "a6"))
-    return rv_reg_a6;
-  if (!strcmp(str, "a7"))
-    return rv_reg_a7;
-  if (!strcmp(str, "s2"))
-    return rv_reg_s2;
-  if (!strcmp(str, "s3"))
-    return rv_reg_s3;
-  if (!strcmp(str, "s4"))
-    return rv_reg_s4;
-  if (!strcmp(str, "s5"))
-    return rv_reg_s5;
-  if (!strcmp(str, "s6"))
-    return rv_reg_s6;
-  if (!strcmp(str, "s7"))
-    return rv_reg_s7;
-  if (!strcmp(str, "s8"))
-    return rv_reg_s8;
-  if (!strcmp(str, "s9"))
-    return rv_reg_s9;
-  if (!strcmp(str, "s10"))
-    return rv_reg_s10;
-  if (!strcmp(str, "s11"))
-    return rv_reg_s11;
-  if (!strcmp(str, "t3"))
-    return rv_reg_t3;
-  if (!strcmp(str, "t4"))
-    return rv_reg_t4;
-  if (!strcmp(str, "t5"))
-    return rv_reg_t5;
-  if (!strcmp(str, "t6"))
-    return rv_reg_t6;
+  for (uint32_t i = startReg; i <= endReg; i++) {
+    if (!strcmp(str, rv_regs[i]))
+      return i;
+  }
   return -1;
 }
 
@@ -93,10 +34,10 @@ char *dropSpace(char *str) {
 }
 
 // Пропускает все разделительные символы и возвращяет указатель на начало слова
-uint8_t isseparator(char c){
+uint8_t isseparator(char c) {
   uint32_t size = strlen(separator);
-  for(uint32_t i=0; i<size; i++){
-    if(separator[i] == c){
+  for (uint32_t i = 0; i < size; i++) {
+    if (separator[i] == c) {
       return 1;
     }
   }
@@ -107,7 +48,30 @@ char *dropSeparator(char *str) {
   char *it = str;
   if (str) {
     for (; *it; it++) {
-      if (!isseparator(*it)){
+      if (!isseparator(*it)) {
+        return it;
+      }
+    }
+  }
+  return NULL;
+}
+
+// Пропускает символ конца
+uint8_t isending(char c) {
+  uint32_t size = strlen(separator);
+  for (uint32_t i = 0; i < size; i++) {
+    if (ending[i] == c) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+char *dropEnding(char *str) {
+  char *it = str;
+  if (str) {
+    for (; *it; it++) {
+      if (!isending(*it)) {
         return it;
       }
     }
@@ -116,21 +80,200 @@ char *dropSeparator(char *str) {
 }
 
 // Пропускает коментарии и возвращяет указатель на начало слова
-char *dropComent(char *) {
-  puts("Fix me: dropComent");
-  return NULL;
+int isStartComment(char *str) {
+  uint32_t size = strlen(str);
+  if (size > strlen(startComment)) {
+    char *temp = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(temp, str);
+    *(temp + 2) = 0x00;
+    if (!strcmp(temp, startComment)) {
+      free(temp);
+      return 1;
+    }
+    free(temp);
+  }
+  if (size == strlen(startComment)) {
+    if (!strcmp(str, startComment)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+int isEndComment(char *str) {
+  uint32_t size = strlen(str);
+  if (size > strlen(endComment)) {
+    char *temp = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(temp, str);
+    *(temp + 2) = 0x00;
+    if (!strcmp(temp, endComment)) {
+      free(temp);
+      return 1;
+    }
+    free(temp);
+  }
+  if (size == strlen(endComment)) {
+    if (!strcmp(str, endComment)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+char *dropComent(char *str) {
+  char *pStr = str;
+  if (*pStr) {
+    if (isStartComment(pStr)) {
+      uint32_t size = strlen(endComment);
+      while (*pStr) {
+        if (isEndComment(pStr)) {
+          if (*(pStr + size) != 0x00) {
+            return pStr + size;
+          }
+          return NULL;
+        }
+        pStr++;
+      }
+      printf("WARNING: endComment not found: \'%s\'\n", str);
+      return NULL;
+    }
+  }
+  return str;
 }
 
 // Правило для получения opcode
-char *getStrOpcode(char *) {
-  puts("Fix me: getStrOpcode");
+char *getNewStrOpcode(char *str, char **NewOpcode) {
+  if (str) {
+    char *it = str;
+    char *end = NULL;
+    uint32_t size = strlen(str);
+    for (; *it; it++) {
+      if (isspace(*it)) {
+        break;
+      }
+    }
+    char tempChar = *it;
+    *it = 0x00;
+    size = strlen(str);
+    *NewOpcode = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(*NewOpcode, str);
+    *(*NewOpcode + size) = 0x00;
+    *it = tempChar;
+    return it;
+  }
   return NULL;
 }
 
 // Правило для получения operand
-char *getStrOperand(char *) {
-  puts("Fix me: getStrOperand");
+char *getNewStrOperand(char *str, char **NewOperand) {
+  if (str) {
+    char *it = str;
+    char *end = NULL;
+    uint32_t size = strlen(str);
+    for (; *it; it++) {
+      if (isseparator(*it) || isending(*it)) {
+        break;
+      }
+    }
+    char tempChar = *it;
+    *it = 0x00;
+    size = strlen(str);
+    *NewOperand = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(*NewOperand, str);
+    *(*NewOperand + size) = 0x00;
+    *it = tempChar;
+    return it;
+  }
   return NULL;
+}
+
+uint8_t isBnBinary(char *str) {
+  uint8_t res = 0;
+  char *it = str;
+  if ((*it == bn_basis[bn_binary][0]) &&
+      (*(it + 1) == bn_basis[bn_binary][1]) && (*(it + 2) != 0x00)) {
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t isBnOctal(char *str) {
+  uint8_t res = 0;
+  char *it = str;
+  if ((*it == bn_basis[bn_octal][0]) && (*(it + 1) == bn_basis[bn_octal][1]) &&
+      (*(it + 2) != 0x00)) {
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t isBnDecimal(char *str) {
+  uint8_t res = 0;
+  char *it = str;
+  if ((*it == bn_basis[bn_decimal][0]) &&
+      (*(it + 1) == bn_basis[bn_decimal][1]) && (*(it + 2) != 0x00)) {
+    return 1;
+  }
+  return 0;
+}
+
+uint8_t isBnHex(char *str) {
+  uint8_t res = 0;
+  char *it = str;
+  if ((*it == bn_basis[bn_hex][0]) && (*(it + 1) == bn_basis[bn_hex][1]) &&
+      (*(it + 2) != 0x00)) {
+    return 1;
+  }
+  return 0;
+}
+
+const char digits[] = "0123456789abcdef";
+uint8_t isDigits(char c, uint32_t basis) {
+  if (basis <= strlen(digits)) {
+    for (uint32_t i = 0; i < basis; i++) {
+      if (digits[i] == c) {
+        return 1;
+      }
+    }
+  }
+  return 0;
+}
+
+uint8_t getDigits(char c, uint32_t basis) {
+  if (basis <= strlen(digits)) {
+    for (uint32_t i = 0; i < basis; i++) {
+      if (digits[i] == c) {
+        return i;
+      }
+    }
+  }
+  printf("Это не цифра!!!\n");
+  abort();
+}
+
+int Atoi(char *str, uint32_t *res, uint32_t basis) {
+  *res = 0;
+  if ((basis == 2 && isBnBinary(str)) || (basis == 8 && isBnOctal(str)) ||
+      (basis == 10 && isBnDecimal(str)) || (basis == 16 && isBnHex(str))) {
+    uint32_t size = strlen(str) - 2;
+    char *temp = (char *)malloc(sizeof(char) * size + 1);
+    strcpy(temp, str + 2);
+    temp[size] = 0x00;
+    for (uint32_t i = 0; i < size; i++) {
+      if (isDigits(temp[i], basis)) {
+        *res += getDigits(temp[i], basis) * pow(basis, (size - 1 - i));
+      } else {
+        // Встретился символ не являющийся числом
+        free(temp);
+        return -2;
+      }
+    }
+    free(temp);
+  } else {
+    // Не подходит
+    return -1;
+  }
+  return 0;
 }
 
 //

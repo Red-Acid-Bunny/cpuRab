@@ -36,36 +36,59 @@ enum {
   rv_reg_t5,       // Temporary register 5
   rv_reg_t6,       // Temporary register 6
 };
+const uint32_t startReg = rv_reg_zero;
+const uint32_t endReg = rv_reg_t6;
 
 const char rv_regs[][10] = {"zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
                             "s0",   "s1", "a0",  "a1",  "a2", "a3", "a4", "a5",
                             "a6",   "a7", "s2",  "s3",  "s4", "s5", "s6", "s7",
                             "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"};
 
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
 const char separator[] = ",";
+uint8_t isseparator(char c);
+char *dropSeparator(char *str);
+
+// Пропускает символ конца
+const char ending[] = ";";
+uint8_t isending(char c);
+char *dropEnding(char *str);
+
+// The basis of the number system
+enum { bn_binary = 0x00, bn_octal, bn_decimal, bn_hex };
+
+const char bn_basis[][3] = {"0b", "0o", "0d", "0x"};
+
+uint8_t isBnBinary(char *str);
+uint8_t isBnOctal(char *str);
+uint8_t isBnDecimal(char *str);
+uint8_t isBnHex(char *str);
+int Atoi(char *str, uint32_t *res, uint32_t basis);
+
+// Comments
+const char startComment[] = "/*";
+const char endComment[] = "*/";
+int isStartComment(char *str);
+int isEndComment(char *str);
+// Пропускает коментарии и возвращяет указатель на начало слова
+char *dropComent(char *str);
 
 typedef struct {
   uint32_t opcode;
   uint32_t rd;
 } CmdLine;
 
-uint32_t getCodeRvReg(const char*);
-const char* getStrRvReg(uint32_t);
+uint32_t getCodeRvReg(const char *);
 
-// Пропускает все разделительные символы и возвращяет ссылку на начало слова
-char *dropSpace(char *);
+const char *getStrRvReg(uint32_t);
 
-// Пропускает все разделительные символы и возвращяет ссылку на начало слова
-uint8_t isseparator(char);
-char *dropSeparator(char *);
+// Пропускает все разделительные символы и возвращяет указатель на начало слова
+char *dropSpace(char *str);
 
-// Пропускает коментарии и возвращяет ссылку на начало слова
-char *dropComent(char *);
-
-// Правило для получения opcode 
-char *getStrOpcode(char *);
+// Правило для получения opcode
+char *getNewStrOpcode(char *str, char **NewOpcode);
 
 // Правило для получения operand
-char *getStrOperand(char *);
+char *getNewStrOperand(char *str, char **NewOperand);
 
 #endif // !TEST_H

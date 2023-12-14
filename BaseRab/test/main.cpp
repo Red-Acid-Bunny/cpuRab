@@ -321,7 +321,7 @@ int testFunction_dropSeparator() {
     char *it = text;
     it = dropSeparator(it);
     if (!it) {
-        num++;
+      num++;
     }
   }
   {
@@ -330,7 +330,529 @@ int testFunction_dropSeparator() {
     char *it = text;
     it = dropSeparator(it);
     if (!it) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_dropComent() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "/**/text";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 't')
         num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*text*/D";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 'D')
+        num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*text*/";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "D/*text";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 'D') {
+        num++;
+      }
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*tex*t";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*tex*t/";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "/*text";
+    char *it = text;
+    it = dropComent(it);
+    if (!it) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "";
+    char *it = text;
+    it = dropComent(it);
+    if (it) {
+      if (*it == 0x00)
+        num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_getNewStrOpcode() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "text D";
+    char *it = text;
+    char *newOpcode = NULL;
+    it = getNewStrOpcode(it, &newOpcode);
+    if (it) {
+      if ((*it == ' ') && (!strcmp("text", newOpcode)))
+        num++;
+    }
+    if (newOpcode)
+      free(newOpcode);
+  }
+  {
+    num_check++;
+    char text[] = "text\tD";
+    char *it = text;
+    char *newOpcode = NULL;
+    it = getNewStrOpcode(it, &newOpcode);
+    if (it) {
+      if ((*it == '\t') && (!strcmp("text", newOpcode)))
+        num++;
+    }
+    if (newOpcode)
+      free(newOpcode);
+  }
+  {
+    num_check++;
+    char text[] = "";
+    char *it = text;
+    char *newOpcode = NULL;
+    it = getNewStrOpcode(it, &newOpcode);
+    if (it) {
+      if (*it == 0x00) {
+        num++;
+      }
+    }
+    if (newOpcode)
+      free(newOpcode);
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_getNewStrOperand() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "text,D";
+    char *it = text;
+    char *newOperand = NULL;
+    it = getNewStrOperand(it, &newOperand);
+    if (it) {
+      if ((*it == ',') && (!strcmp("text", newOperand)))
+        num++;
+    }
+    if (newOperand)
+      free(newOperand);
+  }
+  {
+    num_check++;
+    char text[] = "text;D";
+    char *it = text;
+    char *newOperand = NULL;
+    it = getNewStrOperand(it, &newOperand);
+    if (it) {
+      if ((*it == ';') && (!strcmp("text", newOperand)))
+        num++;
+    }
+    if (newOperand)
+      free(newOperand);
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnBinaty() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0b1";
+    char *it = text;
+    if (isBnBinary(it)) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0b";
+    char *it = text;
+    if (!isBnBinary(it)) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnOctal() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0o1";
+    char *it = text;
+    if (isBnOctal(it)) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0o";
+    char *it = text;
+    if (!isBnOctal(it)) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnDecimal() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0d1";
+    char *it = text;
+    if (isBnDecimal(it)) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0d";
+    char *it = text;
+    if (!isBnDecimal(it)) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_isBnHex() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0x1";
+    char *it = text;
+    if (isBnHex(it)) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x";
+    char *it = text;
+    if (!isBnHex(it)) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0";
+    char *it = text;
+    if (!isBnHex(it)) {
+      num++;
+    }
+  }
+  if (num == num_check)
+    return 1;
+  return 0;
+}
+
+int testFunction_Atoi() {
+  uint32_t num = 0;
+  uint32_t num_check = 0;
+  {
+    num_check++;
+    char text[] = "0b0";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 2) == 0 && res == 0) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0b01";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 2) == 0 && res == 1) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0b11111111111111111111111111111111";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 2) == 0 && res == 4294967295) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0o0";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 8) == 0 && res == 0) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0o01";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 8) == 0 && res == 1) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0o37777777777";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 8) == 0 && res == 4294967295) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0d0";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 10) == 0 && res == 0) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0d01";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 10) == 0 && res == 1) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0d4294967295";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 10) == 0 && res == 4294967295) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x0";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 0) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x01";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 1) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xffffffff";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 4294967295) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x1";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 1) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x2";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 2) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x3";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 3) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x4";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 4) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x5";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 5) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x6";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 6) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x7";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 7) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x8";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 8) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0x9";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 9) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xa";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 10) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xb";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 11) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xc";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 12) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xd";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 13) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xe";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 14) {
+      num++;
+    }
+  }
+  {
+    num_check++;
+    char text[] = "0xf";
+    char *it = text;
+    uint32_t res = 0;
+    if (Atoi(it, &res, 16) == 0 && res == 15) {
+      num++;
     }
   }
   if (num == num_check)
@@ -344,49 +866,113 @@ void run_tests() {
   {
     char name[] = "testStruct_CmdLine";
     if (testStruct_CmdLine()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testArray_rv_regs";
     if (testArray_rv_regs()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_getCodeRvReg";
     if (testFunction_getCodeRvReg()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_getStrRvReg";
     if (testFunction_getStrRvReg()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_dropSpace";
     if (testFunction_dropSpace()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
     }
   }
   {
     char name[] = "testFunction_dropSeparator";
     if (testFunction_dropSeparator()) {
-      printf("%s %s\n", strSuccess ,name);
+      printf("%s %s\n", strSuccess, name);
     } else {
-      printf("%s %s\n", strError ,name);
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_dropComent";
+    if (testFunction_dropComent()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_getNewStrOpcode";
+    if (testFunction_getNewStrOpcode()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_getNewStrOperand";
+    if (testFunction_getNewStrOperand()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnBinaty";
+    if (testFunction_isBnBinaty()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnOctal";
+    if (testFunction_isBnOctal()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnDecimal";
+    if (testFunction_isBnDecimal()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_isBnHex";
+    if (testFunction_isBnHex()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
+    }
+  }
+  {
+    char name[] = "testFunction_Atoi";
+    if (testFunction_Atoi()) {
+      printf("%s %s\n", strSuccess, name);
+    } else {
+      printf("%s %s\n", strError, name);
     }
   }
 }
